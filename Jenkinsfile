@@ -24,7 +24,7 @@ pipeline {
 				withCredentials([
 					[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "$AWS_CREDENTIALS_ID"]
 				]) {
-					sh "make plan" 
+					sh "make plan"
 }
 			}
 		}
