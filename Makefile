@@ -12,3 +12,6 @@ plan: init
 apply: init
 	/opt/terraform apply --var-file=variables.tfvars --auto-approve
 
+destroy: init
+	/opt/terraform destroy --var-file=variables.tfvars --auto-approve
+
