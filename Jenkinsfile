@@ -14,7 +14,7 @@ pipeline {
 		stage('[PROD] Get credentials') {
 			steps {
 				script {
-					AWS_CREDENTIALS_ID = "AKIA5B76OXH4P2MTX7M2"
+					AWS_CREDENTIALS_ID = "aws"
 					account = 'prod'
 				}
 			}
