@@ -2,7 +2,6 @@ pipeline {
 	agent {
 		label "ecs" 
 	}
-
 	options {
 		timeout(time: 1, unit: 'HOURS') 
 	}
