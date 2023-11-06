@@ -1,6 +1,6 @@
 pipeline {
 	agent {
-		label "ecs"
+		label "ecs" 
 	}
 
 	options {
