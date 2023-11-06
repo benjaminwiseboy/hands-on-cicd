@@ -8,7 +8,7 @@ pipeline {
 	}
 
 	environment {
-		AWS_DEFAULT_REGION = "eu-west-1"
+		AWS_DEFAULT_REGION = "eu-west-1" 
 	}
 	stages {
 		stage('[PROD] Get credentials') {
