@@ -5,7 +5,6 @@ pipeline {
 	options {
 		timeout(time: 1, unit: 'HOURS') 
 	}
-
 	environment {
 		AWS_DEFAULT_REGION = "eu-west-1" 
 	}
