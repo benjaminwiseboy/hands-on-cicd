@@ -5,13 +5,13 @@ requirement:
     unzip terraform_${TF_VERSION}_linux_amd64.zip -d /opt/
 
 init:
-	/opt/terraform init
+	terraform init
 plan: init
-	/opt/terraform plan --var-file=variables.tfvars
+	terraform plan --var-file=variables.tfvars
 
 apply: init
-	/opt/terraform apply --var-file=variables.tfvars --auto-approve
+	terraform apply --var-file=variables.tfvars --auto-approve
 
 destroy: init
-	/opt/terraform destroy --var-file=variables.tfvars --auto-approve
+	terraform destroy --var-file=variables.tfvars --auto-approve
 
