@@ -22,7 +22,6 @@ variables:
 workflow:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
   script:
       - echo "Étape de test en cours..."
-  only:
-    - main
