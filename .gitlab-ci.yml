@@ -1,4 +1,4 @@
-assume role:
+assume_role:
   id_tokens:
     GITLAB_OIDC_TOKEN:
       aud: https://gitlab.revolve.team
@@ -13,6 +13,8 @@ assume role:
       --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
       --output text))
     - aws sts get-caller-identity
+  tags: 
+    - gitlab-shared-runners
 
 
 variables:
@@ -25,3 +27,7 @@ workflow:
     - if: '$CI_COMMIT_BRANCH == "main"'
   script:
       - echo "Étape de test en cours..."
+  needs:
+   - assume_role
+  tags: 
+    - gitlab-shared-runners
