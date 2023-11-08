@@ -1,7 +1,7 @@
 assume_role:
   id_tokens:
     GITLAB_OIDC_TOKEN:
-      aud: https://gitlab.revolve.team
+      aud: https://gitlab.revolve.team/
   script:
     - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.13.32.zip" -o "awscliv2.zip"
     - unzip awscliv2.zip
