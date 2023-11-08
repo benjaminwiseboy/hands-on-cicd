@@ -4,7 +4,7 @@ requirement:
 	wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip && \
     unzip terraform_${TF_VERSION}_linux_amd64.zip -d /usr/local/bin/
 
-init: requirement
+init:
 	aws sts get-caller-identity
 	terraform init
 plan: init
