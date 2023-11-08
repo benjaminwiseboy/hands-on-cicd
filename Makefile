@@ -5,6 +5,7 @@ requirement:
     unzip terraform_${TF_VERSION}_linux_amd64.zip -d /opt/
 
 init: requirement
+    aws sts get-caller-identity
 	/opt/terraform init
 plan: init
 	/opt/terraform plan --var-file=variables.tfvars
