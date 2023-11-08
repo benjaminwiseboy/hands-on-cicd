@@ -47,3 +47,56 @@ No modules.
 |------|-------------|
 | <a name="output_api_gateway_urls"></a> [api\_gateway\_urls](#output\_api\_gateway\_urls) | n/a |
 <!-- END_TF_DOCS -->
+
+## list action for deploy on gitlabci
+
+### requirement aws
+
+**create oidc**
+
+![oidc](docs/identity_provider.png)
+
+**create role**
+
+![IAM ROLE](docs/create_role_iam.png)
+
+add trust relationship on custom trust policy
+
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Federated": "arn_oidc"
+                    },
+                    "Action": "sts:AssumeRoleWithWebIdentity",
+                    "Condition": {
+                        "StringEquals": {
+                            "gitlab.revolve.team:sub": "project_path:name_orga/name_repo:ref_type:branch:ref:branch_name"
+                        }
+                    }
+                }
+            ]
+        }
+
+change:
+
+- arn_oidc
+- name_orga
+- name_repo
+- branch_name (default `main`)
+
+add policie for deploy terraform
+
+### requirement gitlabci
+
+download zip [here](https://gitlab.revolve.team/jeremy.monnier/handson-cicd)
+
+create repo on gitlabci
+
+add variable on project in gitlabci settings/cicd:
+
+- ROLE_ARN
+
+![variable](docs/variable_gitlabci.png)
