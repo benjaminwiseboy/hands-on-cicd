@@ -100,3 +100,56 @@ add variable on project in gitlabci settings/cicd:
 - ROLE_ARN
 
 ![variable](docs/variable_gitlabci.png)
+
+## gitlab - Jenkins
+
+create repo gitlab
+
+create personal access token
+
+create iam role on your aws account with custom trust policie
+
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "AWS": "arn:aws:iam::897644935672:role/ecs_task_execution_role"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        }
+
+add policie on your role for deploy terraform
+
+send arn iam role for authorize jenkins to assume your role
+
+create credentials jenkins administrer:
+
+- click  jenkins/credentials/system/identifiants globaux/add creation
+
+- create secret gitlab on jenkins with id on specify with your name for sample
+
+![secret_gitlab_jenkins](docs/secret_gitlab_jenkins.png)
+
+- create secret aws on jenkins with id on specify with your name for sample specifies your role create on aws
+
+![jenkins_aws_credentials](docs/jenkins_aws_credentials.png)
+
+create multibranche pipeline jenkins:
+
+- click new item
+- choose name
+- choose multibranch pipeline
+- click add on branch sources choose gitlab project
+- choose your Checkout Credentials
+- fill owner
+- choose your project
+- add parameters Filter by name and fill main on Include
+- choose other parameters if necessary
+
+![new_item_jenkins](docs/new_item_jenkins.png)
+![mutli_brache_pipeline_parameters](docs/mutli_brache_pipeline_parameters.png)
+modify Jenkinsfile with id credentials aws
