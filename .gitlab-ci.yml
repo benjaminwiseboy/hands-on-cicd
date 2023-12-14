@@ -2,6 +2,8 @@ default:
   tags:
     - gitlab-shared-runners
 assume_role:
+  tags:
+    - gitlab-shared-runners
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
     - if: '$CI_COMMIT_BRANCH == "main"'
