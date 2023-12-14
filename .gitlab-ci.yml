@@ -9,7 +9,7 @@ assume_role:
     - gitlab-shared-runners
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    #- if: '$CI_COMMIT_BRANCH == "main"'
   id_tokens:
     GITLAB_OIDC_TOKEN:
       aud: https://gitlab.revolve.team
