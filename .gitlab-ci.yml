@@ -1,4 +1,10 @@
+stages:
+  - assume_role
+default:
+  tags:
+    - gitlab-default-runner
 assume_role:
+  stage: assume_role
   tags:
     - gitlab-shared-runners
   rules:
