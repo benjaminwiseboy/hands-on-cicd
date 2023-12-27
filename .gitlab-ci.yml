@@ -1,5 +1,9 @@
+variables:
+    TERRAFORM_PLAN_FILE: tfplan
+
 stages:
-    - main
+    - plan
+    - apply
 
 .images:
     terraform: &image_terraform
@@ -25,18 +29,51 @@ stages:
             --output text))
         - aws sts get-caller-identity
 
+.cache-terraform: &cache_terraform
+    cache:
+        key: ${CI_PIPELINE_ID}-terraform-${CI_COMMIT_REF_SLUG}
+        paths:
+            - .terraform/
+            - .terraform.lock.hcl
+
+.cache-terraform-pull: &cache_terraform_pull
+    extends:
+        - .cache-terraform
+    cache:
+        policy: pull-push
+
 
 terraform_plan:
     <<: *image_terraform
+    <<: *cache_terraform_pull
     <<: *assume_role_token
-    stage: main
+    stage: plan
     rules:
         - if: '$CI_PIPELINE_SOURCE == "push"'
         - if: '$CI_COMMIT_BRANCH == "main"'
     script:
         - *assume_role_script
         - terraform init
-        - terraform plan
+        - terraform plan -out=${TERRAFORM_PLAN_FILE}
+    artifacts:
+        paths:
+            - $TERRAFORM_PLAN_FILE
+
+terraform_apply:
+    <<: *image_terraform
+    <<: *cache_terraform_pull
+    <<: *assume_role_token
+    stage: apply
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "push"'
+        - if: '$CI_COMMIT_BRANCH == "main"'
+        when: manual
+    script:
+        - *assume_role_script
+        - terraform apply ${TERRAFORM_PLAN_FILE}
+    artifacts:
+        paths:
+            - $TERRAFORM_PLAN_FILE
 
 
 
