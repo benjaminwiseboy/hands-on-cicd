@@ -7,11 +7,11 @@ init:
 	aws sts get-caller-identity
 	terraform init
 plan: init
-	terraform plan --no-color --var-file=variables.tfvars
+	terraform plan --var-file=variables.tfvars -no-color
 
 apply: init
-	terraform apply --no-color --var-file=variables.tfvars --auto-approve
+	terraform apply --var-file=variables.tfvars --auto-approve -no-color
 
 destroy: init
-	terraform destroy --no-color --var-file=variables.tfvars --auto-approve
+	terraform destroy --var-file=variables.tfvars --auto-approve -no-color
 
