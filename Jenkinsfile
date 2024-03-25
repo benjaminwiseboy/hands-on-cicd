@@ -12,7 +12,7 @@ pipeline {
 		stage('[PROD] Get credentials') {// Defines a stage with the name 'Get credentials'.
 			steps {
 				script {
-					AWS_CREDENTIALS_ID = "aws"// Sets the AWS credentials ID to 'aws'.
+					AWS_CREDENTIALS_ID = "68967952-c0ce-42e2-9815-53bb6b53f992"// Sets the AWS credentials ID to 'aws'.
 				}
 			}
 		}
