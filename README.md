@@ -99,7 +99,7 @@ add variable on project in gitlabci settings/cicd:
 
 - ROLE_ARN
 
-![variable](docs/variable_gitlabci.png)
+![variable](docs/variable_gitlab_ci.png)
 
 ## gitlab - Jenkins
 
