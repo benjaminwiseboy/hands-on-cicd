@@ -31,7 +31,6 @@ stages:
 
 
 
-
 terraform_plan:
     <<: *image_terraform
     <<: *assume_role_token
