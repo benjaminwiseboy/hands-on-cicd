@@ -29,52 +29,46 @@ stages:
             --output text))
         - aws sts get-caller-identity
 
-.cache-terraform: &cache_terraform
-    cache:
-        key: ${CI_PIPELINE_ID}-terraform-${CI_COMMIT_REF_SLUG}
-        paths:
-            - .terraform/
-            - .terraform.lock.hcl
 
-.cache-terraform-pull: &cache_terraform_pull
-    extends:
-        - .cache-terraform
-    cache:
-        policy: pull-push
 
 
 terraform_plan:
     <<: *image_terraform
-    <<: *cache_terraform_pull
     <<: *assume_role_token
     stage: plan
     rules:
-        - if: '$CI_PIPELINE_SOURCE == "push"'
-        - if: '$CI_COMMIT_BRANCH == "main"'
+        - if: $CI_COMMIT_BRANCH == "gitlab-ci" && $CI_PIPELINE_SOURCE == "push"
     script:
         - *assume_role_script
         - terraform init
-        - terraform plan -out=${TERRAFORM_PLAN_FILE}
+        - terraform plan -out=${TERRAFORM_PLAN_FILE} -var-file="variables.tfvars"
     artifacts:
         paths:
             - $TERRAFORM_PLAN_FILE
+            - .terraform.lock.hcl
+            
 
 terraform_apply:
     <<: *image_terraform
-    <<: *cache_terraform_pull
     <<: *assume_role_token
     stage: apply
     rules:
-        - if: '$CI_PIPELINE_SOURCE == "push"'
-        - if: '$CI_COMMIT_BRANCH == "main"'
-        - when: manual
+        - if: $CI_COMMIT_BRANCH == "gitlab-ci" && $CI_PIPELINE_SOURCE == "push"
+          when: manual
     script:
         - *assume_role_script
+        - terraform init
         - terraform apply ${TERRAFORM_PLAN_FILE}
-    artifacts:
-        paths:
-            - $TERRAFORM_PLAN_FILE
 
-
-
+terraform_destroy:
+    <<: *image_terraform
+    <<: *assume_role_token
+    stage: apply
+    rules:
+        - if: $CI_COMMIT_BRANCH == "gitlab-ci" && $CI_PIPELINE_SOURCE == "push"
+          when: manual
+    script:
+        - *assume_role_script
+        - terraform init
+        - terraform destroy -auto-approve -var-file="variables.tfvars"
 
